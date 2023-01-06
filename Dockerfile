@@ -60,14 +60,14 @@ RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
         && rvm install 3.1.2 \
         && rvm use 3.1.2 --default \
         && rvm rubygems current \
-        && gem install bundler --no-document" \
+        && gem install bundler:2.3.23 --no-document" \
     && echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*' >> /home/gitpod/.bashrc.d/70-ruby
 RUN echo "rvm_gems_path=/home/gitpod/.rvm" > ~/.rvmrc
 
 USER gitpod
 
 # AppDev stuff
-COPY install-packages /usr/bin
+COPY ./bin/install-packages /usr/bin
 
 RUN /bin/bash -l -c "gem install htmlbeautifier rufo -N"
 
@@ -148,9 +148,9 @@ RUN curl -fsSL https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-ins
         mypy autopep8 pep8 pylama pydocstyle bandit notebook \
         twine \
     && sudo rm -rf /tmp/*
-# Gitpod will automatically add user site under `/workspace` to persist your packages.
-# ENV PYTHONUSERBASE=/workspace/.pip-modules \
-#    PIP_USER=yes
+# # Gitpod will automatically add user site under `/workspace` to persist your packages.
+# # ENV PYTHONUSERBASE=/workspace/.pip-modules \
+# #    PIP_USER=yes
 
 ## R ##
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
@@ -204,46 +204,17 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
     && sudo n stable \
     && hash -r
 
-### Python ###
-LABEL dazzle/layer=lang-python
-LABEL dazzle/test=tests/lang-python.yaml
-USER gitpod
-RUN sudo install-packages python3-pip
-
-ENV PATH=$HOME/.pyenv/bin:$HOME/.pyenv/shims:$PATH
-RUN curl -fsSL https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash \
-    && { echo; \
-        echo 'eval "$(pyenv init -)"'; \
-        echo 'eval "$(pyenv virtualenv-init -)"'; } >> /home/gitpod/.bashrc.d/60-python \
-    && pyenv update \
-    && pyenv install 3.7.6 \
-    && pyenv global 3.7.6 \
-    && python3 -m pip install --no-cache-dir --upgrade pip \
-    && python3 -m pip install --no-cache-dir --upgrade \
-        setuptools wheel virtualenv pipenv pylint rope flake8 \
-        mypy autopep8 pep8 pylama pydocstyle bandit notebook \
-        twine \
-    && sudo rm -rf /tmp/*
-# Gitpod will automatically add user site under `/workspace` to persist your packages.
-# ENV PYTHONUSERBASE=/workspace/.pip-modules \
-#    PIP_USER=yes
-
 ## R ##
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
     && sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran35/' \
     && sudo apt update \
     && sudo apt install -y r-base r-base-core r-recommended
 
-
 # Pre-install gems into /base-rails/gems/
 COPY Gemfile /base-rails/Gemfile
 COPY --chown=gitpod:gitpod Gemfile.lock /base-rails/Gemfile.lock
-RUN /bin/bash -l -c "gem install bundler:2.3.23"
 RUN /bin/bash -l -c "mkdir gems && bundle config set --local path 'gems'"
 RUN /bin/bash -l -c "bundle install"
-
-# Disable skylight
-RUN /bin/bash -l -c "bundle exec skylight disable_dev_warning"
 
 # Install heroku-cli
 RUN /bin/bash -l -c "curl https://cli-assets.heroku.com/install.sh | sh"
@@ -275,4 +246,3 @@ __git_complete g __git_main" >> ~/.bash_aliases
 # Hack to pre-install bundled gems
 RUN echo "rvm use 2.7.3" >> ~/.bashrc
 RUN echo "rvm_silence_path_mismatch_check_flag=1" >> ~/.rvmrc
-
