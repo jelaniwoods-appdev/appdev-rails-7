@@ -14,8 +14,13 @@ FileUtils.chdir APP_ROOT do
   # Add necessary setup steps to this file.
 
   puts "== Installing dependencies =="
-  system! "gem install bundler --conservative"
-  system("bundle check") || system!("bundle install")
+  system! "bundle config set --local path 'vendor/bundle'"
+  if !Dir.exist?("vendor/bundle/ruby") && Dir.exist?("/base-rails/gems/ruby")
+  	FileUtils.cp_r("/base-rails/gems/ruby", "vendor/bundle")
+  end
+  system! "gem install rufo htmlbeautifier --no-document"
+  system!("bundle install")
+  system! "bundle exec skylight disable_dev_warning"
 
   # puts "\n== Copying sample files =="
   # unless File.exist?("config/database.yml")
