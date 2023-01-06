@@ -1,4 +1,4 @@
-image: jelaniwoods/appdev2023-full
+image: jelaniwoods/appdev2023-vanilla-railsx
 
 tasks:
   - before: |
