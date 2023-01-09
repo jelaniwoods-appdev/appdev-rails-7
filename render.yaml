@@ -1,18 +1,18 @@
 databases:
-  - name: vanilla-railsx
-    databaseName: vanilla-railsx
-    user: vanilla-railsx
+  - name: vanilla-railsx-app
+    databaseName: vanilla-railsx-db
+    user: dbUser
 
 services:
   - type: web
-    name: vanilla-railsx
+    name: vanilla-railsx-web
     env: ruby
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: vanilla-railsx
+          name: vanilla-railsx-db
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
