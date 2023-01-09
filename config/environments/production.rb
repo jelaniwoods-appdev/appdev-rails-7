@@ -21,8 +21,7 @@ Rails.application.configure do
   # config.require_master_key = true
 
   config.action_mailer.default_url_options = { host: ENV["APP_HOST"], port: 3000 }
-
-
+  config.secret_key_base = ENV["SECRET_KEY_BASE"]
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present? || ENV['RENDER'].present?
