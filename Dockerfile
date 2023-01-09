@@ -219,6 +219,9 @@ RUN /bin/bash -l -c "bundle install"
 # Install heroku-cli
 RUN /bin/bash -l -c "curl https://cli-assets.heroku.com/install.sh | sh"
 
+# Install flyyctl
+RUN /bin/bash -l -c "curl -L https://fly.io/install.sh | sh"
+
 # Git global configuration
 RUN git config --global push.default upstream \
     && git config --global merge.ff only \
