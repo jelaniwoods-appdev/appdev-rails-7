@@ -48,7 +48,66 @@ RUN sudo echo "Running 'sudo' for Gitpod: success" && \
     mkdir /home/gitpod/.bashrc.d && \
     (echo; echo "for i in \$(ls \$HOME/.bashrc.d/*); do source \$i; done"; echo) >> /home/gitpod/.bashrc
 
+### Ruby ###
+LABEL dazzle/layer=lang-ruby
+LABEL dazzle/test=tests/lang-ruby.yaml
+USER gitpod
+RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
+    && curl -sSL https://rvm.io/pkuczynski.asc | gpg --import - \
+    && curl -fsSL https://get.rvm.io | bash -s stable \
+    && bash -lc " \
+        rvm requirements \
+        && rvm install 3.1.2 \
+        && rvm use 3.1.2 --default \
+        && rvm rubygems current \
+        && gem install bundler:2.3.23 --no-document" \
+    && echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*' >> /home/gitpod/.bashrc.d/70-ruby
+RUN echo "rvm_gems_path=/home/gitpod/.rvm" > ~/.rvmrc
+
+USER gitpod
+
+# AppDev stuff
 COPY ./bin/install-packages /usr/bin
+
+RUN /bin/bash -l -c "gem install htmlbeautifier rufo -N"
+ENV PATH="/home/gitpod/.rvm/ruby-3.1.2/wrappers:$PATH"
+
+WORKDIR /base-rails
+
+# Install Google Chrome
+RUN sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | \
+    tee -a /etc/apt/sources.list.d/google.list' && \
+    wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | \
+    sudo apt-key add - && \
+    sudo apt-get update && \
+    sudo apt-get install -y google-chrome-stable libxss1
+
+# Install Chromedriver (compatable with Google Chrome version)
+#   See https://gerg.dev/2021/06/making-chromedriver-and-chrome-versions-match-in-a-docker-image/
+# RUN BROWSER_MAJOR=$(google-chrome --version | sed 's/Google Chrome \([0-9]*\).*/\1/g') && \
+#     wget https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${BROWSER_MAJOR} -O chrome_version && \
+#     wget https://chromedriver.storage.googleapis.com/`cat chrome_version`/chromedriver_linux64.zip && \
+#     unzip chromedriver_linux64.zip && \
+#     sudo mv chromedriver /usr/local/bin/ && \
+#     DRIVER_MAJOR=$(chromedriver --version | sed 's/ChromeDriver \([0-9]*\).*/\1/g') && \
+#     echo "chrome version: $BROWSER_MAJOR" && \
+#     echo "chromedriver version: $DRIVER_MAJOR" && \
+#     if [ $BROWSER_MAJOR != $DRIVER_MAJOR ]; then echo "VERSION MISMATCH"; exit 1; fi
+
+
+# Install Google Chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+RUN sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+RUN sudo apt-get -y update
+RUN sudo apt-get -y install google-chrome-stable
+# Install Chromedriver
+# RUN sudo apt-get -y install google-chrome-stable
+RUN wget https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip
+RUN unzip chromedriver_linux64.zip
+
+RUN sudo mv chromedriver /usr/bin/chromedriver
+RUN sudo chown root:root /usr/bin/chromedriver
+RUN sudo chmod +x /usr/bin/chromedriver
 
 # Install PostgreSQL
 RUN sudo install-packages postgresql-12 postgresql-contrib-12
@@ -118,65 +177,6 @@ RUN curl -fsSL "https://get.sdkman.io" | bash \
              && echo '[[ -s \"/home/gitpod/.sdkman/bin/sdkman-init.sh\" ]] && source \"/home/gitpod/.sdkman/bin/sdkman-init.sh\"' >> /home/gitpod/.bashrc.d/99-java"
 # above, we are adding the sdkman init to .bashrc (executing sdkman-init.sh does that), because one is executed on interactive shells, the other for non-interactive shells (e.g. plugin-host)
 ENV GRADLE_USER_HOME=/workspace/.gradle/
-
-### Ruby ###
-LABEL dazzle/layer=lang-ruby
-LABEL dazzle/test=tests/lang-ruby.yaml
-USER gitpod
-RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
-    && curl -sSL https://rvm.io/pkuczynski.asc | gpg --import - \
-    && curl -fsSL https://get.rvm.io | bash -s stable \
-    && bash -lc " \
-        rvm requirements \
-        && rvm install 3.1.2 \
-        && rvm use 3.1.2 --default \
-        && rvm rubygems current \
-        && gem install bundler:2.3.23 --no-document" \
-    && echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*' >> /home/gitpod/.bashrc.d/70-ruby
-RUN echo "rvm_gems_path=/home/gitpod/.rvm" > ~/.rvmrc
-
-USER gitpod
-
-# AppDev stuff
-
-RUN /bin/bash -l -c "gem install htmlbeautifier rufo -N"
-
-WORKDIR /base-rails
-
-# Install Google Chrome
-RUN sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | \
-    tee -a /etc/apt/sources.list.d/google.list' && \
-    wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | \
-    sudo apt-key add - && \
-    sudo apt-get update && \
-    sudo apt-get install -y google-chrome-stable libxss1
-
-# Install Chromedriver (compatable with Google Chrome version)
-#   See https://gerg.dev/2021/06/making-chromedriver-and-chrome-versions-match-in-a-docker-image/
-# RUN BROWSER_MAJOR=$(google-chrome --version | sed 's/Google Chrome \([0-9]*\).*/\1/g') && \
-#     wget https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${BROWSER_MAJOR} -O chrome_version && \
-#     wget https://chromedriver.storage.googleapis.com/`cat chrome_version`/chromedriver_linux64.zip && \
-#     unzip chromedriver_linux64.zip && \
-#     sudo mv chromedriver /usr/local/bin/ && \
-#     DRIVER_MAJOR=$(chromedriver --version | sed 's/ChromeDriver \([0-9]*\).*/\1/g') && \
-#     echo "chrome version: $BROWSER_MAJOR" && \
-#     echo "chromedriver version: $DRIVER_MAJOR" && \
-#     if [ $BROWSER_MAJOR != $DRIVER_MAJOR ]; then echo "VERSION MISMATCH"; exit 1; fi
-
-
-# Install Google Chrome
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
-RUN sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-RUN sudo apt-get -y update
-RUN sudo apt-get -y install google-chrome-stable
-# Install Chromedriver
-# RUN sudo apt-get -y install google-chrome-stable
-RUN wget https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip
-RUN unzip chromedriver_linux64.zip
-
-RUN sudo mv chromedriver /usr/bin/chromedriver
-RUN sudo chown root:root /usr/bin/chromedriver
-RUN sudo chmod +x /usr/bin/chromedriver
 
 WORKDIR /base-rails
 USER gitpod
@@ -248,5 +248,5 @@ source /usr/share/bash-completion/completions/git\n\
 __git_complete g __git_main" >> ~/.bash_aliases
 
 # Hack to pre-install bundled gems
-RUN echo "rvm use 3.1.2" >> ~/.bashrc
+RUN echo "rvm use 2.7.3" >> ~/.bashrc
 RUN echo "rvm_silence_path_mismatch_check_flag=1" >> ~/.rvmrc
