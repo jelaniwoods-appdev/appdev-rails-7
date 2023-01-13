@@ -73,7 +73,7 @@ USER gitpod
 # AppDev stuff
 COPY ./bin/install-packages /usr/bin
 
-RUN /bin/bash -l -c "rvm @global --create do gem install htmlbeautifier rufo -N"
+RUN /bin/bash -l -c "gem install htmlbeautifier rufo -N"
 
 WORKDIR /base-rails
 

@@ -39,11 +39,11 @@
 		"editor.formatOnSave": true
   },
   "[ruby]":  {
-    "editor.defaultFormatter": "jnbt.vscode-rufo",
+    "editor.defaultFormatter": "mbessey.vscode-rufo",
 		"editor.formatOnSave": true
   },
   "vscode-erb-beautify.keepBlankLines": 1,
-  "vscode-erb-beautify.executePath": "/home/gitpod/.rvm/gems/ruby-3.1.2/wrappers/htmlbeautifier",
+  // "vscode-erb-beautify.executePath": "/home/gitpod/.rvm/gems/ruby-3.1.2/wrappers/htmlbeautifier",
   // "rufo.exe": "/home/gitpod/.rvm/gems/ruby-3.1.2/wrappers/rufo",
   "ruby.intellisense": false,
   "gitpod.openInStable.neverPrompt": true,
