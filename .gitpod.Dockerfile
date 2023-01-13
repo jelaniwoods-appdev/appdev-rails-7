@@ -64,13 +64,16 @@ RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
     && echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*' >> /home/gitpod/.bashrc.d/70-ruby
 RUN echo "rvm_gems_path=/home/gitpod/.rvm" > ~/.rvmrc
 
+ENV GEM_HOME=/workspace/.rvm
+ENV GEM_PATH=$GEM_HOME:$GEM_PATH
+ENV PATH=/workspace/.rvm/bin:$PATH
+
 USER gitpod
 
 # AppDev stuff
 COPY ./bin/install-packages /usr/bin
 
-RUN /bin/bash -l -c "gem install htmlbeautifier rufo -N"
-ENV PATH="/home/gitpod/.rvm/ruby-3.1.2/wrappers:$PATH"
+RUN /bin/bash -l -c "rvm @global --create do gem install htmlbeautifier rufo -N"
 
 WORKDIR /base-rails
 
@@ -248,5 +251,5 @@ source /usr/share/bash-completion/completions/git\n\
 __git_complete g __git_main" >> ~/.bash_aliases
 
 # Hack to pre-install bundled gems
-RUN echo "rvm use 2.7.3" >> ~/.bashrc
-RUN echo "rvm_silence_path_mismatch_check_flag=1" >> ~/.rvmrc
+# RUN echo "rvm use 3.1.2" >> ~/.bashrc
+# RUN echo "rvm_silence_path_mismatch_check_flag=1" >> ~/.rvmrc
