@@ -251,5 +251,5 @@ source /usr/share/bash-completion/completions/git\n\
 __git_complete g __git_main" >> ~/.bash_aliases
 
 # Hack to pre-install bundled gems
-# RUN echo "rvm use 3.1.2" >> ~/.bashrc
-# RUN echo "rvm_silence_path_mismatch_check_flag=1" >> ~/.rvmrc
+RUN echo "rvm use 3.1.2" >> ~/.bashrc
+RUN echo "rvm_silence_path_mismatch_check_flag=1" >> ~/.rvmrc
