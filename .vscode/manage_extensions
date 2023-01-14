@@ -1,12 +1,16 @@
 #!/usr/bin/env ruby
 
-extensions = [
+unwanted_extensions = [
   "k--kato.intellij-idea-keybindings",
   "kaiwood.endwise",
   "castwide.solargraph",
 ]
 
-extensions.each do |extension|
+wanted_extensions = [
+  "vscode-rufo-0.0.6.vsix"
+]
+
+unwanted_extensions.each do |extension|
   results = `code --uninstall-extension #{extension}`
   if results.include?("successfully uninstalled")
     status = "successful"
@@ -16,4 +20,16 @@ extensions.each do |extension|
     status = "failed"
   end
   puts "Uninstalled #{extension} - #{status}"
+end
+
+wanted_extensions.each do |extension|
+  results = `code --install-extension #{extension}`
+  if results.include?("successfully installed")
+    status = "successful"
+  elsif results.include?("is not installed")
+    status = "failed"
+  else
+    status = "(wasn't installed)"
+  end
+  puts "Installed #{extension} - #{status}"
 end
