@@ -225,6 +225,7 @@ RUN /bin/bash -l -c "curl https://cli-assets.heroku.com/install.sh | sh"
 
 # Install flyyctl
 RUN /bin/bash -l -c "curl -L https://fly.io/install.sh | sh"
+RUN echo "export PATH=\"/home/gitpod/.fly/bin:\$PATH\"" >> ~/.bashrc
 
 # Git global configuration
 RUN git config --global push.default upstream \
