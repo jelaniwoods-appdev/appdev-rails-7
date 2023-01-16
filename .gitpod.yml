@@ -1,4 +1,4 @@
-image: jelaniwoods/appdev2023-vanilla-railsx-global3
+image: jelaniwoods/appdev2023-rails-template
 
 tasks:
   - before: |

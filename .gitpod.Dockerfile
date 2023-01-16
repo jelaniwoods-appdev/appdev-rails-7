@@ -189,7 +189,7 @@ RUN /bin/bash -l -c "sudo apt update && sudo apt install -y graphviz"
 # Install fuser (bin/server) and expect (web_git)
 RUN sudo apt install -y libpq-dev psmisc lsof expect
 
-# Install parity gem
+# Install parity
 RUN wget -qO - https://apt.thoughtbot.com/thoughtbot.gpg.key | sudo apt-key add - \
     && echo "deb http://apt.thoughtbot.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/thoughtbot.list \
     && sudo apt-get update \
@@ -207,12 +207,6 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
     && sudo npm install -g n \
     && sudo n stable \
     && hash -r
-
-## R ##
-RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
-    && sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran35/' \
-    && sudo apt update \
-    && sudo apt install -y r-base r-base-core r-recommended
 
 # Pre-install gems into /base-rails/gems/
 COPY Gemfile /base-rails/Gemfile
