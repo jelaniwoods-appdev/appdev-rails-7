@@ -17,5 +17,4 @@ ports:
 vscode:
   extensions:
     - vortizhe.simple-ruby-erb
-    - jnbt.vscode-rufo
     - aliariff.vscode-erb-beautify

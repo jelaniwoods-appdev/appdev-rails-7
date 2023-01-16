@@ -4,6 +4,8 @@ unwanted_extensions = [
   "k--kato.intellij-idea-keybindings",
   "kaiwood.endwise",
   "castwide.solargraph",
+  "jnbt.vscode-rufo",
+  "mbessey.vscode-rufo",
 ]
 
 wanted_extensions = [
@@ -23,13 +25,11 @@ unwanted_extensions.each do |extension|
 end
 
 wanted_extensions.each do |extension|
-  results = `code --install-extension #{extension}`
-  if results.include?("successfully installed")
+  results = `code --install-extension .vscode/#{extension}`
+  if results.include?("success")
     status = "successful"
-  elsif results.include?("is not installed")
-    status = "failed"
   else
-    status = "(wasn't installed)"
+    status = "failed"
   end
-  puts "Installed #{extension} - #{status}"
+  puts "Installed #{extension} - #{status}!"
 end
