@@ -26,6 +26,7 @@ gem "importmap-rails", "~> 1.1"
 # AppDev Gems
 # ===========
 gem "active_link_to"
+gem "appdev_support", github: "firstdraft/appdev_support"
 gem "carrierwave"
 gem "cloudinary"
 gem "devise", "~> 4.8"
