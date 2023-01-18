@@ -22,6 +22,7 @@ group :development do
 end
 
 gem "importmap-rails", "~> 1.1"
+gem "jsbundling-rails"
 
 # AppDev Gems
 # ===========

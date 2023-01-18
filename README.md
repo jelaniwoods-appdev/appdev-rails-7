@@ -69,3 +69,19 @@ We've added additional Ruby gems and other software to the `Dockerfile` that are
 - aliariff.vscode-erb-beautify
 - jnbt.vscode-rufo
 - vortizhe.simple-ruby-erb
+
+
+---
+
+Remove:
+
+```js
+//= link_tree ../../javascript .js
+```
+from `manifest.js` since you don't need `application.js` if you are loading the builds folder.
+
+
+> Uncaught DOMException: CustomElementRegistry.define: 'turbo-cable-stream-source' has already been defined as a custom element
+
+See: https://github.com/hotwired/turbo-rails/issues/249
+a currently open issue with no hotfixes
