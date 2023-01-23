@@ -11,6 +11,7 @@ We've added additional Ruby gems and other software to the `Dockerfile` that are
 ### Additional gems:
 
 - [`active_link_to`](https://github.com/comfy/active_link_to)
+- [`appdev_support`](https://github.com/firstdraft/appdev_support)
 - [`annotate`](https://github.com/ctran/annotate_models)
 - [`awesome_print`](https://github.com/awesome-print/awesome_print)
 - [`better_errors`](https://github.com/BetterErrors/better_errors)
