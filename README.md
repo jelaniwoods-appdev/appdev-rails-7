@@ -69,4 +69,5 @@ We've added additional Ruby gems and other software to the `Dockerfile` that are
 ### VS Code extensions:
 - aliariff.vscode-erb-beautify
 - jnbt.vscode-rufo
+  - This repo uses a slightly modified version of this extension (located at `.vscode/vscode-rufo-0.0.6.vsix`). This allows the `rufo.exe` setting to be set at the workspace level instead of user level.
 - vortizhe.simple-ruby-erb
