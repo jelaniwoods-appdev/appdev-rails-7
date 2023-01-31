@@ -52,19 +52,20 @@ We've added additional Ruby gems and other software to the `Dockerfile` that are
 - [`webmock`](https://github.com/bblimke/webmock)
 
 ### Additional software:
-- Chromedriver
-- Fly.io's `flyctl`
+- Chromedriver 2.41.578700
+- Fly.io's `flyctl` 0.0.450
 - Google Chrome (headless browser)
-- Graphviz
-- Heroku CLI
+- Graphviz 2.42.2-3build2
+- Heroku CLI 7.67.1
 - Java 11
-- Node JS
-- Parity
+- Node JS 18.13.0
+- NPM 8.19.3
+- Parity 3.5.0-2
 - Postgresql 12
 - Python 3.7.6
-- R
-- SDKMAN
-- Yarn and NPM
+- R, RScript 3.6.3
+- SDKMAN 5.16.0
+- Yarn 1.22.19
 
 ### VS Code extensions:
 - aliariff.vscode-erb-beautify

@@ -184,7 +184,7 @@ ENV GRADLE_USER_HOME=/workspace/.gradle/
 WORKDIR /base-rails
 USER gitpod
 # Install graphviz (Rails ERD)
-RUN /bin/bash -l -c "sudo apt update && sudo apt install -y graphviz"
+RUN /bin/bash -l -c "sudo apt update && sudo apt install -y graphviz=2.42.2-3build2"
 
 # Install fuser (bin/server) and expect (web_git)
 RUN sudo apt install -y libpq-dev psmisc lsof expect
@@ -193,7 +193,7 @@ RUN sudo apt install -y libpq-dev psmisc lsof expect
 RUN wget -qO - https://apt.thoughtbot.com/thoughtbot.gpg.key | sudo apt-key add - \
     && echo "deb http://apt.thoughtbot.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/thoughtbot.list \
     && sudo apt-get update \
-    && sudo apt-get -y install parity
+    && sudo apt-get -y install parity=3.5.0-2
 
 # Install Node and npm
 RUN curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash - \
@@ -205,7 +205,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
     && sudo apt-get update \
     && sudo apt-get install -y yarn \
     && sudo npm install -g n \
-    && sudo n stable \
+    && sudo n 18.13.0 \
     && hash -r
 
 # Pre-install gems into /base-rails/gems/
@@ -224,12 +224,15 @@ RUN echo "export PATH=\"/home/gitpod/.fly/bin:\$PATH\"" >> ~/.bashrc
 # Git global configuration
 RUN git config --global push.default upstream \
     && git config --global merge.ff only \
+    && git config --global alias.aa '!git add -A' \
+    && git config --global alias.cm '!f(){ git commit -m "${*}"; };f' \
     && git config --global alias.acm '!f(){ git add -A && git commit -am "${*}"; };f' \
     && git config --global alias.as '!git add -A && git stash' \
     && git config --global alias.p 'push' \
     && git config --global alias.sla 'log --oneline --decorate --graph --all' \
     && git config --global alias.co 'checkout' \
-    && git config --global alias.cob 'checkout -b'
+    && git config --global alias.cob 'checkout -b' \
+    && git config --global --add --bool push.autoSetupRemote true
 
 # Alias 'git' to 'g'
 RUN echo 'export PATH="$PATH:$GITPOD_REPO_ROOT/bin"' >> ~/.bashrc
