@@ -193,6 +193,12 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
     && sudo n 18.13.0 \
     && hash -r
 
+# Install Redis.
+RUN sudo apt-get update \
+ && sudo apt-get install -y \
+  redis-server=5:5.0.7-2ubuntu0.1 \
+ && sudo rm -rf /var/lib/apt/lists/*
+
 # Pre-install gems into /base-rails/gems/
 COPY Gemfile /base-rails/Gemfile
 COPY --chown=gitpod:gitpod Gemfile.lock /base-rails/Gemfile.lock

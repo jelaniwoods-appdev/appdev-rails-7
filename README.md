@@ -52,6 +52,7 @@ We've added additional Ruby gems and other software to the `Dockerfile` that are
 - [`webmock`](https://github.com/bblimke/webmock)
 
 ### Additional software:
+- OS Ubuntu 20.04.5 LTS
 - Chromedriver 2.41.578700
 - Fly.io's `flyctl` 0.0.450
 - Google Chrome (headless browser)
@@ -63,6 +64,7 @@ We've added additional Ruby gems and other software to the `Dockerfile` that are
 - Parity 3.5.0-2
 - Postgresql 12
 - Python 3.8
+- Redis 5:5.0.7-2ubuntu0.1
 - R, RScript 3.6.3
 - SDKMAN 5.16.0
 - Yarn 1.22.19
