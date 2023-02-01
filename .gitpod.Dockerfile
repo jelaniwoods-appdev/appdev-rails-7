@@ -133,28 +133,13 @@ ENV PGDATABASE="postgres"
 RUN printf "\n# Auto-start PostgreSQL server.\n[[ \$(pg_ctl status | grep PID) ]] || pg_start > /dev/null\n" >> ~/.bashrc
 
 ### Python ###
-LABEL dazzle/layer=lang-python
-LABEL dazzle/test=tests/lang-python.yaml
-USER gitpod
-RUN sudo install-packages python3-pip
 
-ENV PATH=$HOME/.pyenv/bin:$HOME/.pyenv/shims:$PATH
-RUN curl -fsSL https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash \
-    && { echo; \
-        echo 'eval "$(pyenv init -)"'; \
-        echo 'eval "$(pyenv virtualenv-init -)"'; } >> /home/gitpod/.bashrc.d/60-python \
-    && pyenv update \
-    && pyenv install 3.7.6 \
-    && pyenv global 3.7.6 \
-    && python3 -m pip install --no-cache-dir --upgrade pip \
-    && python3 -m pip install --no-cache-dir --upgrade \
-        setuptools wheel virtualenv pipenv pylint rope flake8 \
-        mypy autopep8 pep8 pylama pydocstyle bandit notebook \
-        twine \
-    && sudo rm -rf /tmp/*
-# # Gitpod will automatically add user site under `/workspace` to persist your packages.
-# # ENV PYTHONUSERBASE=/workspace/.pip-modules \
-# #    PIP_USER=yes
+RUN sudo apt-get update && \
+    sudo apt-get install -y software-properties-common && \
+    sudo add-apt-repository -y ppa:deadsnakes/ppa && \
+    sudo apt-get update && \
+    sudo apt install -y python3.8 && \
+    echo "alias python=python3\n" >> ~/.bash_aliases
 
 ## R ##
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
@@ -252,5 +237,5 @@ __git_complete g __git_main" >> ~/.bash_aliases
 RUN echo "alias be='bundle exec'" >> ~/.bash_aliases
 
 # Hack to pre-install bundled gems
-RUN echo "rvm use 3.1.2" >> ~/.bashrc
-RUN echo "rvm_silence_path_mismatch_check_flag=1" >> ~/.rvmrc
+# RUN echo "rvm use 3.1.2" >> ~/.bashrc
+# RUN echo "rvm_silence_path_mismatch_check_flag=1" >> ~/.rvmrc

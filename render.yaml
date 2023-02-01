@@ -1,12 +1,12 @@
 databases:
-  - name: vanillarails
-    databaseName: vanillarails
-    user: vanillarails
+  - name: appdev_template
+    databaseName: appdev_template
+    user: appdev_template
     plan: free
 
 services:
   - type: web
-    name: vanillarails
+    name: appdev_template
     env: ruby
     plan: free
     buildCommand: "./bin/render-build.sh"
@@ -14,7 +14,7 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: vanillarails
+          name: appdev_template
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false

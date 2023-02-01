@@ -1,4 +1,4 @@
-image: jelaniwoods/appdev2023-rails-template
+image: jelaniwoods/appdev2023-rails-template-wip
 
 tasks:
   - before: |

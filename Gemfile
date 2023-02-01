@@ -6,11 +6,14 @@ ruby "3.1.2"
 gem "rails", "~> 7.0.4"
 
 gem "bootsnap", require: false
+gem "importmap-rails", "~> 1.1"
 gem "jbuilder"
 gem "pg", "~> 1.1"
 gem "puma", "~> 5.0"
 gem "sprockets-rails"
+gem "stimulus-rails"
 gem "sqlite3", "~> 1.4"
+gem "turbo-rails"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do
@@ -21,24 +24,39 @@ group :development do
   gem "web-console"
 end
 
-gem "importmap-rails", "~> 1.1"
 
 # AppDev Gems
 # ===========
+gem "aasm"
 gem "active_link_to"
+gem "acts_as_list"
+gem "acts_as_votable"
 gem "appdev_support", github: "firstdraft/appdev_support"
+gem "auto_increment"
 gem "carrierwave"
 gem "cloudinary"
 gem "devise", "~> 4.8"
+gem "elasticsearch" 
 gem "faker", "~> 3.1.0"
+gem "graphiti"
+gem "graphiti-rails"
+gem "good_job"
 gem "google-cloud-translate", "2.3.0"
 gem "http"
+gem "ice_cube"
 gem "mailgun-ruby"
+gem "money"
+gem "phony_rails"
 gem "pundit"
 gem "rack-cors"
+gem "recommendable"
+gem "searchkick"
 gem "strip_attributes"
 gem "twilio-ruby"
+gem "unread"
 gem "validate_url"
+gem "vandal_ui"
+gem "wicked"
 
 group :development, :test do
   gem "awesome_print"
