@@ -62,7 +62,7 @@ We've added additional Ruby gems and other software to the `Dockerfile` that are
 - NPM 8.19.3
 - Parity 3.5.0-2
 - Postgresql 12
-- Python 3.7.6
+- Python 3.8
 - R, RScript 3.6.3
 - SDKMAN 5.16.0
 - Yarn 1.22.19
