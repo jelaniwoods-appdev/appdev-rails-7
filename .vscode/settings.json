@@ -22,7 +22,7 @@
   "files.exclude": {
 		"**/.git": true,
 		".vscode": true,
-		".bundle": true,
+		".bundle": true
   },
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
@@ -36,11 +36,11 @@
   "terminal.integrated.altClickMovesCursor": true,
   "[erb]":  {
     "editor.defaultFormatter": "aliariff.vscode-erb-beautify",
-		"editor.formatOnSave": true
+		"editor.formatOnSave": false
   },
   "[ruby]":  {
     "editor.defaultFormatter": "firstdraft.vscode-rufo",
-		"editor.formatOnSave": true
+		"editor.formatOnSave": false
   },
   "vscode-erb-beautify.keepBlankLines": 1,
   "vscode-erb-beautify.executePath": "/home/gitpod/.rvm/gems/ruby-3.1.2/wrappers/htmlbeautifier",
@@ -50,5 +50,5 @@
   "redhat.telemetry.enabled": false,
   "emmet.includeLanguages": {
     "erb": "html"
-  },
+  }
 }
